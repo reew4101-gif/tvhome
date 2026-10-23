@@ -10,8 +10,9 @@ name: Build tvhome APK
     jobs:
       build:
           runs-on: ubuntu-latest
+
               steps:
-                    -name: Checkout
+                    - name: Checkout
                             uses: actions/checkout@v4
 
                                   - name: Set up Java 21
@@ -32,17 +33,19 @@ name: Build tvhome APK
                                                                                                                                     TMDB_READ_TOKEN: ${{ secrets.TMDB_READ_TOKEN }}
                                                                                                                                             run: |
                                                                                                                                                       printf 'sdk.dir=%s\n' "$ANDROID_HOME" > local.properties
-                                                                                                                                                                printf 'TMDB_READ_TOKEN=%s\n' "$TMDB_READ_TOKEN" >> local.properties
-                                                                                                                                                                
-                                                                                                                                                                      - name: Build release APK
-                                                                                                                                                                              run: |
-                                                                                                                                                                                        chmod +x gradlew
-                                                                                                                                                                                                  ./gradlew :app:testReleaseUnitTest :app:assembleRelease
-                                                                                                                                                                                                  
-                                                                                                                                                                                                        - name: Upload APK
-                                                                                                                                                                                                                uses: actions/upload-artifact@v4
-                                                                                                                                                                                                                        with:
-                                                                                                                                                                                                                                  name: tvhome-release-apk
-                                                                                                                                                                                                                                            path: app/build/outputs/apk/release/app-release.apk
-                                                                                                                                                                                                                                                      if-no-files-found: error
-                                                                                                                                                                                                                                                      
+                                                                                                                                                                if [ -n "$TMDB_READ_TOKEN" ]; then
+                                                                                                                                                                            printf 'TMDB_READ_TOKEN=%s\n' "$TMDB_READ_TOKEN" >> local.properties
+                                                                                                                                                                                      fi
+                                                                                                                                                                                      
+                                                                                                                                                                                            - name: Build release APK
+                                                                                                                                                                                                    run: |
+                                                                                                                                                                                                              chmod +x gradlew
+                                                                                                                                                                                                                        ./gradlew :app:testReleaseUnitTest :app:assembleRelease
+                                                                                                                                                                                                                        
+                                                                                                                                                                                                                              - name: Upload APK
+                                                                                                                                                                                                                                      uses: actions/upload-artifact@v4
+                                                                                                                                                                                                                                              with:
+                                                                                                                                                                                                                                                        name: tvhome-release-apk
+                                                                                                                                                                                                                                                                  path: app/build/outputs/apk/release/app-release.apk
+                                                                                                                                                                                                                                                                            if-no-files-found: error
+                                                                                                                                                                                                                                                                            
