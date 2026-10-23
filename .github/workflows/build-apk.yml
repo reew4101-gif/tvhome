@@ -11,7 +11,7 @@ name: Build tvhome APK
       build:
           runs-on: ubuntu-latest
               steps:
-                    - name: Checkout
+                    -name: Checkout
                             uses: actions/checkout@v4
 
                                   - name: Set up Java 21
