@@ -1,11 +1,7 @@
 
 name: Build tvhome APK
 
-"on":
-  workflow_dispatch:
-    push:
-        branches:
-              - main
+on: [push, workflow_dispatch]
 
               permissions:
                 contents: read
